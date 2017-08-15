@@ -39,15 +39,12 @@ class IOSXEDriver(NetworkDriver):
         self.password = password
         self.timeout = timeout
 
-        self.port = optional_args.get("port", "80")
-        self.ssl = optional_args.get("ssl", False)
-        if self.ssl:
-            self.url_format = "https://"
-        else:
-            self.url_format = "http://"
+        self.port = optional_args.get("port", "443")
+        self.verify_ssl = optional_args.get("verify_ssl", True)
+        self.url_format = "https://"
 
         self.profile = ["iosxe"]
-        self.url_format = self.url_format + "{host}:{port}/restconf/api/{path}"
+        self.url_format = self.url_format + "{host}:{port}/restconf/{path}"
 
     def open(self):
         pass
@@ -58,7 +55,7 @@ class IOSXEDriver(NetworkDriver):
     def _build_request_args(self, path):
         return {
             'url': self.url_format.format(host=self.hostname, port=self.port, path=path),
-            'headers': {'accept': 'application/vnd.yang.data+json'},
+            'headers': {'accept': 'application/yang-data+json'},
             'auth': (self.username, self.password)
         }
     def _rpc(self, get):

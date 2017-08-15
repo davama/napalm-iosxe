@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
 
   config.vm.define "rtr" do |iosxe|
-    iosxe.vm.box = "csr1k"
+    iosxe.vm.box = "csr1k_1661"
 
     iosxe.vm.network :forwarded_port, guest: 830, host: "2223", id: 'ssh'
     iosxe.vm.network :forwarded_port, guest: 80, host: "2224", id: 'ssh'
