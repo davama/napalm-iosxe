@@ -53,11 +53,14 @@ class IOSXEDriver(NetworkDriver):
         pass
 
     def _build_request_args(self, path):
-        return {
+        args = {
             'url': self.url_format.format(host=self.hostname, port=self.port, path=path),
             'headers': {'accept': 'application/yang-data+json'},
-            'auth': (self.username, self.password)
+            'auth': (self.username, self.password),
+            'verify': self.verify_ssl
         }
+        return args
+
     def _rpc(self, get):
         result = requests.get(**self._build_request_args(get))
         return result.text
