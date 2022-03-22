@@ -28,6 +28,7 @@ from napalm.base.exceptions import (
     )
 
 import requests
+import json
 
 class IOSXEDriver(NetworkDriver):
     """Napalm driver for IOS-XE."""
@@ -39,18 +40,20 @@ class IOSXEDriver(NetworkDriver):
         self.password = password
         self.timeout = timeout
 
-        self.port = optional_args.get("port", "443")
-        self.verify_ssl = optional_args.get("verify_ssl", True)
-        self.url_format = "https://"
+        self.port = optional_args.get('port', '443')
+        self.verify_ssl = optional_args.get('verify_ssl', True)
+        self.url_format = 'https://'
 
-        self.profile = ["iosxe"]
-        self.url_format = self.url_format + "{host}:{port}/restconf/{path}"
+        self.profile = ['iosxe']
+        self.url_format = self.url_format + '{host}:{port}/restconf/{path}'
 
     def open(self):
         pass
+        #self.device.open()
 
     def close(self):
         pass
+        #self.device.close()
 
     def _build_request_args(self, path):
         args = {
@@ -61,8 +64,19 @@ class IOSXEDriver(NetworkDriver):
         }
         return args
 
+# this section does not work...
     def _rpc(self, get):
+        print(self._build_request_args(get))
         result = requests.get(**self._build_request_args(get))
-        return result.text
+        print(result.text)
+        #return result.text
 
-
+# this section does... TO DO: use _build_request_args function
+    def get_config(self, path):
+        url = self.url_format.format(host=self.hostname, port=self.port, path=path)
+        headers = {'Accept': 'application/yang-data+json'}
+        basic_auth = (self.username, self.password)
+        verify = self.verify_ssl
+        r = requests.get(url, headers=headers, auth=basic_auth, verify=False) # need to hardcode verify=False
+        response = json.loads(json.dumps(r.json()))
+        print(response)
