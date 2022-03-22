@@ -1,2 +1,2 @@
-napalm_base>=0.24.0
+napalm
 requests
