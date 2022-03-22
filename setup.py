@@ -3,12 +3,12 @@
 import uuid
 
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
+from pip._internal.req import parse_requirements
 
 __author__ = 'Nick Ethier <nethier@jive.com>'
 
 install_reqs = parse_requirements('requirements.txt', session=uuid.uuid1())
-reqs = [str(ir.req) for ir in install_reqs]
+reqs = [str(ir.requirement) for ir in install_reqs]
 
 setup(
     name="napalm-iosxe",
