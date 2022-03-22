@@ -13,4 +13,6 @@
 # the License.
 
 """napalm-iosxe package."""
-from iosxe import IOSXEDriver
+from napalm_iosxe.iosxe import IOSXEDriver
+
+__all__ = ('IOSXEDriver',)
