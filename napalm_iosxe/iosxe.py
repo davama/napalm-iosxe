@@ -36,6 +36,7 @@ class IOSXEDriver(NetworkDriver):
 
     def __init__(self, hostname, username, password, timeout=60, optional_args=None):
         """Constructor."""
+        self.device = None
         self.hostname = hostname
         self.username = username
         self.password = password
@@ -46,7 +47,7 @@ class IOSXEDriver(NetworkDriver):
         self.url_format = 'https://'
 
         self.profile = ['iosxe']
-        self.url_format = self.url_format + '{host}:{port}/restconf/{path}'
+        self.url_format = self.url_format + '[{host}]:{port}/restconf/{path}'
 
     def open(self):
         #pass
