@@ -74,24 +74,18 @@ class IOSXEDriver(NetworkDriver):
         container = 'native'
         y_c = yang_module + ':' + container
         path = 'data/' + y_c
-        configs = {
-            "startup": "",
-            "running": "",
-            "candidate": "",
-        }
+        configs = {"startup":"","running":"","candidate":""}
 
-        if retrieve.lower() in ["all", "startup"]:
+        if retrieve.lower() in ["startup", "all"]:
             result = requests.get(**self._build_request_args(path))
             startup = json.dumps(result.json())
             configs["startup"] = startup
 
-        if retrieve.lower() in ["all", "running"]:
+        if retrieve.lower() in ["running", "all"]:
             result = requests.get(**self._build_request_args(path))
             running = json.dumps(result.json())
             configs["running"] = running
-
-        #if sanitized:
-        #    configs = self._get_config_sanitized(configs)
+            configs["candidate"] = ""
 
         return configs
 
