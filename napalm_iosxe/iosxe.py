@@ -70,14 +70,52 @@ class IOSXEDriver(NetworkDriver):
         result = requests.get(**self._build_request_args(get))
         return result.text
 
-    def get_config(self):
-        path = 'data/Cisco-IOS-XE-native:native'
+    def get_config(self, retrieve="all", full=False, sanitized=False):
+        yang_module = 'Cisco-IOS-XE-native'
+        container = 'native'
+        y_c = yang_module + ':' + container
+        path = 'data/' + y_c
+        configs = {
+            "startup": "",
+            "running": "",
+            "candidate": "",
+        }
+
+        if retrieve in ("all", "startup"):
+            result = requests.get(**self._build_request_args(path))
+            startup = json.dumps(result.json())
+            configs["startup"] = startup
+
+        if retrieve in ("all", "running"):
+            result = requests.get(**self._build_request_args(path))
+            running = json.dumps(result.json())
+            configs["running"] = running
+
+        #if sanitized:
+        #    configs = self._get_config_sanitized(configs)
+        
+        return configs
+
+    def get_cdp_neighbors_detail(self):
+        yang_module = 'Cisco-IOS-XE-cdp-oper'
+        container = 'cdp-neighbor-details'
+        y_c = yang_module + ':' + container
+        path = 'data/' + y_c
         result = requests.get(**self._build_request_args(path))
         json_parsed = json.dumps(result.json())
         return json_parsed
 
-    def get_cdp_neighbors_detail(self):
-        path = 'data/Cisco-IOS-XE-cdp-oper:cdp-neighbor-details'
+    def get_interfaces(self):
+        yang_module = 'ietf-interfaces'
+        container = 'interfaces'
+        list = 'interface'
+        y_c = yang_module + ':' + container
+        path = 'data/' + y_c
         result = requests.get(**self._build_request_args(path))
-        json_parsed = json.dumps(result.json())
+        json_parsed = json.loads(json.dumps(result.json()))
+        inter_list = []
+        for key in json_parsed[y_c][list]:
+            inter_list.append(key['name'])
+        
+        print(inter_list)
         return json_parsed
