@@ -50,12 +50,10 @@ class IOSXEDriver(NetworkDriver):
         self.url_format = self.url_format + '[{host}]:{port}/restconf/{path}'
 
     def open(self):
-        #pass
-        self.device.open()
+        pass
 
     def close(self):
-        #pass
-        self.device.close()
+        pass
 
     def _build_request_args(self, path):
         args = {
