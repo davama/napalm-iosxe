@@ -116,6 +116,16 @@ class IOSXEDriver(NetworkDriver):
         inter_list = []
         for key in json_parsed[y_c][list]:
             inter_list.append(key['name'])
-        
+
         print(inter_list)
         return json_parsed
+
+    def is_alive(self):
+        path = ''
+        result = requests.get(**self._build_request_args(path))
+        if result.status_code == 200:
+            status = {"is_alive": True}
+        else:
+            status = {"is_alive": False}
+
+        return status
