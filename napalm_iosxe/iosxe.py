@@ -80,19 +80,19 @@ class IOSXEDriver(NetworkDriver):
             "candidate": "",
         }
 
-        if retrieve in ("all", "startup"):
+        if retrieve.lower() in ("all", "startup"):
             result = requests.get(**self._build_request_args(path))
             startup = json.dumps(result.json())
             configs["startup"] = startup
 
-        if retrieve in ("all", "running"):
+        if retrieve.lower() in ("all", "running"):
             result = requests.get(**self._build_request_args(path))
             running = json.dumps(result.json())
             configs["running"] = running
 
         #if sanitized:
         #    configs = self._get_config_sanitized(configs)
-        
+
         return configs
 
     def get_cdp_neighbors_detail(self):
