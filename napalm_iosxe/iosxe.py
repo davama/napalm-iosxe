@@ -47,7 +47,7 @@ class IOSXEDriver(NetworkDriver):
         self.url_format = 'https://'
 
         self.profile = ['iosxe']
-        self.url_format = self.url_format + '[{host}]:{port}/restconf/{path}'
+        self.url_format = self.url_format + '{host}:{port}/restconf/{path}'
 
     def open(self):
         pass
