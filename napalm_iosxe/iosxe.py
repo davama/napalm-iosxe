@@ -80,12 +80,12 @@ class IOSXEDriver(NetworkDriver):
             "candidate": "",
         }
 
-        if retrieve.lower() in ("all", "startup"):
+        if retrieve.lower() in ["all", "startup"]:
             result = requests.get(**self._build_request_args(path))
             startup = json.dumps(result.json())
             configs["startup"] = startup
 
-        if retrieve.lower() in ("all", "running"):
+        if retrieve.lower() in ["all", "running"]:
             result = requests.get(**self._build_request_args(path))
             running = json.dumps(result.json())
             configs["running"] = running
