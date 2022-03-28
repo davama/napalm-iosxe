@@ -70,7 +70,7 @@ class IOSXEDriver(NetworkDriver):
         return result.text
 
     def get_config(self, retrieve="all", full=False, sanitized=False):
-    """ Get device config """
+        """ Get device config """
         yang_module = 'Cisco-IOS-XE-native'
         container = 'native'
         y_c = yang_module + ':' + container
