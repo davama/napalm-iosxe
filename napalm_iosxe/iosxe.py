@@ -70,10 +70,12 @@ class IOSXEDriver(NetworkDriver):
         return result.text
 
     def get_config(self, retrieve="all", full=False, sanitized=False):
+    """ Get device config """
         yang_module = 'Cisco-IOS-XE-native'
         container = 'native'
         y_c = yang_module + ':' + container
         path = 'data/' + y_c
+
         configs = {"startup":"","running":"","candidate":""}
 
         if retrieve.lower() in ["startup", "all"]:
@@ -85,7 +87,6 @@ class IOSXEDriver(NetworkDriver):
             result = requests.get(**self._build_request_args(path))
             running = json.dumps(result.json())
             configs["running"] = running
-            configs["candidate"] = ""
 
         return configs
 
